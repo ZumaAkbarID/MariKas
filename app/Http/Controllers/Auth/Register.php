@@ -81,7 +81,7 @@ class Register extends Controller
                 if (URole::create(
                     [
                         'user_id' => $user->id,
-                        'role_id' => 4
+                        'role_id' => 'Pengunjung'
                     ]
                 )) {
                     $request->session()->regenerate();

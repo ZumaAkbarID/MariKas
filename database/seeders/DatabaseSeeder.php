@@ -86,34 +86,85 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        Role::factory()->create(
+        URole::factory()->create([
+            'user_id' => 1,
+            'role' => 'Developer'
+        ]);
+        User::factory()->create(
             [
-                'r_name' => 'Developer',
-                'r_desc' => 'Pengembang'
+                'name' => 'Pemilik',
+                'username' => 'pemilik',
+                // 'email' => 'rahmatwahyumaakbar@gmail.com',
+                'phone_number' => '081225389901',
+                'status' => 'Aktif',
+                'password' => Hash::make('password')
             ]
         );
-        Role::factory()->create(
+
+        UDetail::factory()->create(
             [
-                'r_name' => 'Pemilik',
-                'r_desc' => 'Pemilik room kas '
-            ]
-        );
-        Role::factory()->create(
-            [
-                'r_name' => 'Anggota',
-                'r_desc' => 'Anggota dari room kas '
-            ]
-        );
-        Role::factory()->create(
-            [
-                'r_name' => 'Pengunjung',
-                'r_desc' => 'Tidak bergabung room manapun'
+                'user_id' => 2,
+                'kyc_document' => 'kyc_doc/default.png',
+                'kyc_selfie' => 'kyc_self/default.png',
+                'kyc' => 'Lolos',
+                'address' => 'Jl. Seroja IV'
             ]
         );
 
         URole::factory()->create([
-            'user_id' => 1,
-            'role_id' => 1
+            'user_id' => 2,
+            'role' => 'Pemilik',
+            'room_id' => 1
+        ]);
+        User::factory()->create(
+            [
+                'name' => 'Anggota',
+                'username' => 'anggota',
+                // 'email' => 'rahmatwahyumaakbar@gmail.com',
+                'phone_number' => '081225389902',
+                'status' => 'Aktif',
+                'password' => Hash::make('password')
+            ]
+        );
+
+        UDetail::factory()->create(
+            [
+                'user_id' => 3,
+                'kyc_document' => 'kyc_doc/default.png',
+                'kyc_selfie' => 'kyc_self/default.png',
+                'kyc' => 'Lolos',
+                'address' => 'Jl. Seroja IV'
+            ]
+        );
+
+        URole::factory()->create([
+            'user_id' => 3,
+            'role' => 'Anggota'
+        ]);
+        User::factory()->create(
+            [
+                'name' => 'Pengunjung',
+                'username' => 'pengunjung',
+                // 'email' => 'rahmatwahyumaakbar@gmail.com',
+                'phone_number' => '081225389904',
+                'status' => 'Aktif',
+                'password' => Hash::make('password')
+            ]
+        );
+
+        UDetail::factory()->create(
+            [
+                'user_id' => 4,
+                'kyc_document' => 'kyc_doc/default.png',
+                'kyc_selfie' => 'kyc_self/default.png',
+                'kyc' => 'Lolos',
+                'address' => 'Jl. Seroja IV'
+            ]
+        );
+
+        URole::factory()->create([
+            'user_id' => 4,
+            'role' => 'Pengunjung'
         ]);
     }
 }

@@ -3,6 +3,8 @@
 use App\Http\Controllers\Auth\Activation as AuthActivation;
 use App\Http\Controllers\Auth\Register as AuthRegister;
 use App\Http\Controllers\Auth\Login as AuthLogin;
+use App\Http\Controllers\Auth\Logout as AuthLogout;
+use App\Http\Controllers\Dashboard\Dashboard;
 use App\Jobs\SendOtp;
 use Illuminate\Support\Facades\Route;
 
@@ -17,9 +19,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->middleware(['isWaActive', 'auth']);
+Route::group(['middleware' => ['auth', 'isWaActive']], function () {
+    Route::get('/', [Dashboard::class, 'index'])->name('Dashboard');
+});
 
 Route::group(['middleware' => 'guest', 'prefix' => 'auth'], function () {
     Route::get('register', [AuthRegister::class, 'form'])->name('Auth_register');
@@ -27,6 +29,10 @@ Route::group(['middleware' => 'guest', 'prefix' => 'auth'], function () {
 
     Route::get('login', [AuthLogin::class, 'form'])->name('Auth_login');
     Route::post('login', [AuthLogin::class, 'process']);
+});
+
+Route::group(['middleware' => ['auth'], 'prefix' => 'auth'], function () {
+    Route::get('logout', [AuthLogout::class, 'process'])->name('Auth_logout');
 });
 
 Route::group(['middleware' => ['auth', 'isWaNonActive'], 'prefix' => 'auth'], function () {

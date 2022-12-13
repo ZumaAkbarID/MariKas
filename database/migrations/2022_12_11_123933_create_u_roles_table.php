@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('u_roles', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->autoIncrement();
             $table->integer('user_id');
-            $table->integer('role_id');
+            $table->enum('role', ['Developer', 'Pemilik', 'Anggota', 'Pengunjung'])->default('Pengunjung');
             $table->integer('room_id')->nullable();
             $table->timestamps();
         });

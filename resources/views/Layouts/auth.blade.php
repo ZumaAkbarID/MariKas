@@ -56,6 +56,13 @@
                 html: "{!! session('error') !!}"
             });
         @endif
+        @if (session()->has('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Yay...',
+                html: "{!! session('success') !!}"
+            });
+        @endif
     </script>
     @yield('auth_script')
 
