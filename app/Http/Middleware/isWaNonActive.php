@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class isWaNonActive
 {
@@ -16,7 +17,10 @@ class isWaNonActive
      */
     public function handle(Request $request, Closure $next)
     {
-
-        return $next($request);
+        if (Auth::check() && is_null(Auth::user()->phone_verified_at)) {
+            return $next($request);
+        } else {
+            return redirect()->to('/');
+        }
     }
 }

@@ -17,7 +17,7 @@ class isWaActive
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->status == 'Aktivasi') {
+        if (Auth::check() && is_null(Auth::user()->phone_verified_at)) {
             return redirect()->to(route('Auth_activation'));
         }
         return $next($request);

@@ -37,11 +37,28 @@
     <script src="{{ asset('storage') }}/assets/js/sweetalerts.js"></script>
 
     <!-- Template JS File -->
-    <script src="{{ asset('storage') }}/assets/js/script.js"></script>
+    {{-- <script src="{{ asset('storage') }}/assets/js/script.js"></script> --}}
     <script src="{{ asset('storage') }}/assets/js/auth.js"></script>
     <script src="{{ asset('storage') }}/assets/js/custom.js"></script>
 
+    <script>
+        @if ($errors->any())
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                html: "{!! implode('', $errors->all('<div>:message</div>')) !!}"
+            });
+        @endif
+        @if (session()->has('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                html: "{!! session('error') !!}"
+            });
+        @endif
+    </script>
     @yield('auth_script')
+
 </body>
 
 </html>

@@ -21,14 +21,18 @@
                     <form action="" method="POST">
                         @csrf
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="text" class="form-control form-control-xl" placeholder="6 Digit Kode">
+                            <input type="text" class="form-control form-control-xl" placeholder="6 Digit Kode"
+                                name="otp" id="otp" required maxlength="6" minlength="6">
                             <div class="form-control-icon">
                                 <i class="bi bi-key"></i>
                             </div>
                         </div>
-                        <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Aktifasi</button>
+                        <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Aktivasi</button>
                     </form>
                     <div class="text-center mt-5 text-lg fs-4">
+                        <p class='text-gray-600'>Kode tidak berfungsi atau kadaluarsa? <a
+                                href="{{ route('Auth_send_otp') }}">Kirim ulang kode</a>.
+                        </p>
                         <p class='text-gray-600'>Salah nomor? Hubungi Developer.
                         </p>
                     </div>

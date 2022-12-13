@@ -30,10 +30,11 @@ class OtpStatusCron extends Command
     {
         info("Cron OTP running at " . now());
 
-        $d = date('Y-m-d H:i:s');
-        $plus15Min = date("Y-m-d H:i:s", strtotime($d . ' +15 minutes'));
-
-        info(Otp::where(['updated_at' > $plus15Min])->where('status', 'available')->count());
+        foreach (Otp::where('status', 'available')->get() as $otp) {
+            if (time() - strtotime($otp->updated_at) > (15 * 60)) {
+                Otp::find($otp->id)->update(['status' => 'expire']);
+            }
+        }
 
         return Command::SUCCESS;
     }

@@ -16,16 +16,18 @@ class SendOtp implements ShouldQueue
 
     protected $user_id;
     protected $phone_number;
+    protected $desc;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($user_id, $phone_number)
+    public function __construct($user_id, $phone_number, $desc = null)
     {
         $this->user_id = $user_id;
         $this->phone_number = $phone_number;
+        $this->desc = $desc;
     }
 
     /**
@@ -45,15 +47,22 @@ class SendOtp implements ShouldQueue
             $this->phone_number = '628' . $n[1];
         }
 
+        foreach (Otp::where('phone_number', $this->phone_number)->where('status', 'available')->get() as $otp) {
+            if (time() - strtotime($otp->updated_at) > (15 * 60)) {
+                Otp::where('id', $otp->id)->update(['status' => 'expire']);
+            }
+        }
+
         Otp::create([
             'user_id' => $this->user_id,
             'code' => $otp_code,
-            'desc' => 'Aktivasi Akun',
+            'desc' => $this->desc,
             'phone_number' => $this->phone_number
         ]);
 
         $text = '
-            Kode OTP : ' . $otp_code . '
+                Kode OTP : ' . $otp_code . '
+            Kode hanya berlaku 15 menit sejak dikirimkan.
         ';
 
         return send_msg($this->phone_number, $text);

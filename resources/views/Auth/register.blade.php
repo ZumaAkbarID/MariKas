@@ -79,7 +79,8 @@
                         <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Buat Akun</button>
                     </form>
                     <div class="text-center mt-5 text-lg fs-4">
-                        <p class='text-gray-600'>Sudah memiliki akun? <a href="auth-login.html" class="font-bold">Masuk</a>.
+                        <p class='text-gray-600'>Sudah memiliki akun? <a href="{{ route('Auth_login') }}"
+                                class="font-bold">Masuk</a>.
                         </p>
                     </div>
                 </div>
@@ -90,20 +91,4 @@
 @endsection
 
 @section('auth_script')
-    <script>
-        @if ($errors->any())
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                html: "{!! implode('', $errors->all('<div>:message</div>')) !!}"
-            });
-        @endif
-        @if (session()->has('error'))
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                html: "{!! session('error') !!}"
-            });
-        @endif
-    </script>
 @endsection
