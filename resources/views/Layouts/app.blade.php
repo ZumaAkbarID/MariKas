@@ -6,6 +6,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ $title }}</title>
 
@@ -20,6 +21,8 @@
     <link rel="stylesheet" href="{{ asset('storage') }}/assets/modules/boxicons/css/boxicons.min.css">
     <!-- Apexcharts  CSS -->
     {{-- <link rel="stylesheet" href="{{ asset('storage') }}/assets/modules/apexcharts/apexcharts.css"> --}}
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="{{ asset('storage') }}/assets/modules/sweetalert/sweetalert.min.css">
 </head>
 
 <body>
@@ -54,12 +57,15 @@
     <div class="loader-overlay"></div>
 
     <!-- General JS Scripts -->
-    <script src="{{ asset('storage') }}/assets/js/atrana.js"></script>
+    <script src="{{ asset('storage') }}/assets/js/marikas.js"></script>
 
     <!-- JS Libraies -->
     <script src="{{ asset('storage') }}/assets/modules/jquery/jquery.min.js"></script>
     <script src="{{ asset('storage') }}/assets/modules/bootstrap-5.1.3/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('storage') }}/assets/modules/popper/popper.min.js"></script>
+
+    <!-- SweetAlert Js -->
+    <script src="{{ asset('storage') }}/assets/modules/sweetalert/sweetalert.all.min.js"></script>
 
     <!-- Chart Js -->
     {{-- <script src="{{ asset('storage') }}/assets/modules/apexcharts/apexcharts.js"></script>
@@ -68,6 +74,23 @@
     <!-- Template JS File -->
     <script src="{{ asset('storage') }}/assets/js/script.js"></script>
     <script src="{{ asset('storage') }}/assets/js/custom.js"></script>
+    <script>
+        @if (session()->has('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                html: "{!! session('error') !!}"
+            });
+        @endif
+        @if (session()->has('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Yay...',
+                html: "{!! session('success') !!}"
+            });
+        @endif
+    </script>
+    @yield('app_js')
 </body>
 
 </html>

@@ -28,7 +28,8 @@
         },
         "files": [
 
-            "app/Helpers/Fastwa.php"
+            "app/Helpers/Fastwa.php",
+            "app/Helpers/Tripay.php"
     
         ]
     },

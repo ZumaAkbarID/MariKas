@@ -60,10 +60,7 @@ class SendOtp implements ShouldQueue
             'phone_number' => $this->phone_number
         ]);
 
-        $text = '
-                Kode OTP : ' . $otp_code . '
-            Kode hanya berlaku 15 menit sejak dikirimkan.
-        ';
+        $text = "Kode OTP : " . $otp_code . "\nKode hanya berlaku 15 menit sejak dikirimkan.";
 
         return send_msg($this->phone_number, $text);
     }

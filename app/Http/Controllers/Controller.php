@@ -12,6 +12,10 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public $WConfig;
+    public $tripay;
+    public $fastwa;
+
     public function __construct()
     {
         $this->WConfig = [

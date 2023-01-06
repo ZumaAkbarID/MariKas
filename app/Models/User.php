@@ -49,10 +49,13 @@ class User extends Authenticatable
         return $this->hasMany(URole::class);
     }
 
-    // Role
-    public function getRole()
+    public function cashout_tracking()
     {
-        $query = $this->with(['u_roles'])->get();
-        return $query;
+        return $this->hasMany(CashoutTracking::class);
+    }
+
+    public function payment()
+    {
+        return $this->hasMany(Payment::class);
     }
 }

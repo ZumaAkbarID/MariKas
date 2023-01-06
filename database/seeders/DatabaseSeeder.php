@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Role;
+use App\Models\Room;
 use App\Models\UDetail;
 use App\Models\URole;
 use App\Models\User;
@@ -139,7 +140,8 @@ class DatabaseSeeder extends Seeder
 
         URole::factory()->create([
             'user_id' => 3,
-            'role' => 'Anggota'
+            'role' => 'Anggota',
+            'room_id' => 1
         ]);
         User::factory()->create(
             [
@@ -166,5 +168,9 @@ class DatabaseSeeder extends Seeder
             'user_id' => 4,
             'role' => 'Pengunjung'
         ]);
+
+        // Room::factory()->create([
+        //     'room_name' => 'Marimas',
+        // ]);
     }
 }

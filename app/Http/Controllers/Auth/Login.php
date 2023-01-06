@@ -32,22 +32,26 @@ class Login extends Controller
         );
 
         if (is_numeric($request->auth)) {
-            if (Auth::attempt(['phone_number' => $request->auth, 'password' => $request->password])) {
+            if (Auth::attempt(['phone_number' => $request->auth, 'password' => $request->password], true)) {
                 if (is_null(Auth::user()->phone_number)) {
                     SendOtp::dispatch(Auth::user()->id, Auth::user()->phone_number);
                     return redirect()->intended(route('Auth_activation'));
                 } else {
-                    return redirect()->intended('/');
+                    return redirect()->intended('/dashboard');
                 }
+            } else {
+                return redirect()->back()->withInput()->with('error', 'Akun tidak ditemukan');
             }
         } else {
-            if (Auth::attempt(['username' => $request->auth, 'password' => $request->password])) {
+            if (Auth::attempt(['username' => $request->auth, 'password' => $request->password], true)) {
                 if (is_null(Auth::user()->phone_number)) {
                     SendOtp::dispatch(Auth::user()->id, Auth::user()->phone_number);
                     return redirect()->intended(route('Auth_activation'));
                 } else {
-                    return redirect()->intended('/');
+                    return redirect()->intended('/dashboard');
                 }
+            } else {
+                return redirect()->back()->withInput()->with('error', 'Akun tidak ditemukan');
             }
         }
     }
