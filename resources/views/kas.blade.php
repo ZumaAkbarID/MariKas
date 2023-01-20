@@ -110,6 +110,20 @@
     <!-- Template JS File -->
     <script src="{{ asset('storage') }}/assets/js/script.js"></script>
     <script>
+        $(document).ready(function() {
+            if (sessionStorage.getItem("kalendar-warning") !== 'true') {
+                sessionStorage.setItem("kalendar-warning", "true");
+                Swal.fire({
+                    title: 'Perhatian!',
+                    text: "Display Kas berdasarkan Kalendar masih mengalami BUG visual!",
+                    icon: 'warning',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Mengerti',
+                });
+            }
+        });
+
         @if (session()->has('error'))
             Swal.fire({
                 icon: 'error',

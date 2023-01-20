@@ -93,10 +93,10 @@ class DatabaseSeeder extends Seeder
         ]);
         User::factory()->create(
             [
-                'name' => 'Pemilik',
-                'username' => 'pemilik',
+                'name' => 'Aditiya Wahyu Alex S',
+                'username' => 'alex20',
                 // 'email' => 'rahmatwahyumaakbar@gmail.com',
-                'phone_number' => '081225389901',
+                'phone_number' => '081367647589',
                 'status' => 'Aktif',
                 'password' => Hash::make('password')
             ]

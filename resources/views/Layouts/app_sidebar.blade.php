@@ -14,7 +14,10 @@
                     <a href="{{ route('Dashboard') }}" class="@if (Request::segment(1) == 'dashboard') active @endif">
                         <i class='bx bxs-dashboard icon'></i> Dashboard
                     </a>
-                    <a href="{{ route('Kas_Index') }}" class="@if (Request::segment(1) == 'kas') active @endif">
+                    <a href="{{ route('Kas_Index') }}" class="@if (Request::segment(1) == 'kalendar') active @endif">
+                        <i class='bx bxs-dashboard icon'></i> Lihat Kalendar
+                    </a>
+                    <a href="{{ route('Kas_EachMonth') }}" class="@if (Request::segment(1) == 'kas') active @endif">
                         <i class='bx bxs-dashboard icon'></i> Lihat Kas
                     </a>
                 </li>

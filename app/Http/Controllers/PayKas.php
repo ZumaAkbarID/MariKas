@@ -24,6 +24,18 @@ class PayKas extends Controller
 
     public function process(Request $request)
     {
+        $nama = ['Aditiya Wahyu Alex S', 'Niken Lismiati', 'Muhammad Yusuf Andrika', 'Qurata Ayun', 'Rahmat Wahyuma Akbar', 'Ayu Fatimah'];
+        $namaFound = 0;
+        for ($i = 0; $i < count($nama); $i++) {
+            if ($nama[$i] == $request->name) {
+                $namaFound = 1;
+            }
+        }
+
+        if ($namaFound == 0) {
+            return redirect()->back()->with('error', 'Apakah kamu (' . $request->name . ') anggota Marimas? ');
+        }
+
         $phone_number = '';
         if (str_split($request->phone_number, 2)[0] == '08') {
             $n = explode("08", $request->phone_number);
@@ -66,6 +78,18 @@ class PayKas extends Controller
 
             return redirect()->back()->with('success', 'Pembayaran akan direview segera. Kas ' . $request->amount . 'x atas nama ' . $request->name);
         } else if ($request->method == 'Otomatis') {
+
+            $nama = ['Aditiya Wahyu Alex S', 'Niken Lismiati', 'Muhammad Yusuf Andrika', 'Qurata Ayun', 'Rahmat Wahyuma Akbar', 'Ayu Fatimah'];
+            $namaFound = 0;
+            for ($i = 0; $i < count($nama); $i++) {
+                if ($nama[$i] == $request->name) {
+                    $namaFound = 1;
+                }
+            }
+
+            if ($namaFound == 0) {
+                return redirect()->back()->with('error', 'Apakah kamu (' . $request->name . ') anggota Marimas? ');
+            }
 
             $privateKey   = 'UQLSQ-i4jxn-mDaXc-1Jgi1-nX5Rf';
             $merchantCode = 'T9501';

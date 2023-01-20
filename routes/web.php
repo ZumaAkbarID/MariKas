@@ -31,7 +31,8 @@ Route::post('/', [PayKas::class, 'process']);
 
 Route::post('/api/tripay/calc-price', [Calc::class, 'price'])->name('Tripay_Calc_Price');
 
-Route::get('kas', [PublicKas::class, 'index'])->name('Kas_Index');
+Route::get('kalendar', [PublicKas::class, 'index'])->name('Kas_Index');
+Route::get('kas', [PublicKas::class, 'kas_eachmonth'])->name('Kas_EachMonth');
 
 Route::group(['middleware' => ['auth', 'isWaActive']], function () {
     Route::get('dashboard', [Dashboard::class, 'index'])->name('Dashboard');

@@ -64,11 +64,131 @@ class PublicKas extends Controller
             }
         }
 
-        return view('Kas', [
+        return view('kas', [
             'title' => 'Pembayaran Kas | ' . $this->WConfig['app_name'],
             'config' => $this->WConfig,
-            'tripay_channel' => get_channel(),
             'data' => $kas
+        ]);
+    }
+
+    public function kas_eachmonth(Request $request)
+    {
+        if (!$request->bulan && !$request->tahun && !$request->nama) {
+            $month = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            $kas = [];
+
+            $kass = KasTracking::where('month', date('m'))->whereBetween('created_at', [date('Y-m-d', strtotime('first day of January', time())), date('Y-m-d', strtotime('last day of December', time()))])->get();
+
+            if (empty($kass) || is_null($kass)) {
+                $kas = [];
+            } else {
+                for ($i = 0; $i < count($kass); $i++) {
+                    $kas[$i] = [
+                        'name'      => $kass[$i]->name,
+                        'week'      => $kass[$i]->week,
+                        'paid_at'   => $kass[$i]->created_at
+                    ];
+                }
+            }
+        } else if ($request->bulan && !$request->tahun && !$request->nama) {
+            $month = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            $kas = [];
+            $findMonth = 0;
+            for ($i = 0; $i < 12; $i++) {
+                if ($request->bulan == $month[$i]) {
+                    $findMonth = $i + 1;
+                }
+            }
+
+            $kass = KasTracking::where('month', $findMonth)->whereBetween('created_at', [date('Y-m-d', strtotime('first day of January', time())), date('Y-m-d', strtotime('last day of December', time()))])->get();
+
+            if (empty($kass) || is_null($kass)) {
+                $kas = [];
+            } else {
+                for ($i = 0; $i < count($kass); $i++) {
+                    $kas[$i] = [
+                        'name'      => $kass[$i]->name,
+                        'week'      => $kass[$i]->week,
+                        'paid_at'   => $kass[$i]->created_at
+                    ];
+                }
+            }
+        } else if ($request->bulan && $request->tahun && !$request->nama) {
+            $month = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            $kas = [];
+            $findMonth = 0;
+            for ($i = 0; $i < 12; $i++) {
+                if ($request->bulan == $month[$i]) {
+                    $findMonth = $i + 1;
+                }
+            }
+
+            $kass = KasTracking::where('month', $findMonth)->whereBetween('created_at', [date('Y-m-d', strtotime('first day of January', strtotime($request->tahun . '-01-01'))), date('Y-m-d', strtotime('last day of December', strtotime($request->tahun . '-12-01')))])->get();
+
+            if (empty($kass) || is_null($kass)) {
+                $kas = [];
+            } else {
+                for ($i = 0; $i < count($kass); $i++) {
+                    $kas[$i] = [
+                        'name'      => $kass[$i]->name,
+                        'week'      => $kass[$i]->week,
+                        'paid_at'   => $kass[$i]->created_at
+                    ];
+                }
+            }
+        } else if ($request->bulan && !$request->tahun && $request->nama) {
+            $month = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            $kas = [];
+            $findMonth = 0;
+            for ($i = 0; $i < 12; $i++) {
+                if ($request->bulan == $month[$i]) {
+                    $findMonth = $i + 1;
+                }
+            }
+
+            $kass = KasTracking::where('month', $findMonth)->whereRaw('LOWER(`name`) LIKE ?', [$request->nama])->whereBetween('created_at', [date('Y-m-d', strtotime('first day of January', time())), date('Y-m-d', strtotime('last day of December', time()))])->get();
+
+            if (empty($kass) || is_null($kass)) {
+                $kas = [];
+            } else {
+                for ($i = 0; $i < count($kass); $i++) {
+                    $kas[$i] = [
+                        'name'      => $kass[$i]->name,
+                        'week'      => $kass[$i]->week,
+                        'paid_at'   => $kass[$i]->created_at
+                    ];
+                }
+            }
+        } else if ($request->bulan && $request->tahun && $request->nama) {
+            $month = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            $kas = [];
+            $findMonth = 0;
+            for ($i = 0; $i < 12; $i++) {
+                if ($request->bulan == $month[$i]) {
+                    $findMonth = $i + 1;
+                }
+            }
+
+            $kass = KasTracking::where('month', $findMonth)->whereRaw('LOWER(`name`) LIKE ?', [$request->nama])->whereBetween('created_at', [date('Y-m-d', strtotime('first day of January', strtotime($request->tahun . '-01-01'))), date('Y-m-d', strtotime('last day of December', strtotime($request->tahun . '-12-01')))])->get();
+
+            if (empty($kass) || is_null($kass)) {
+                $kas = [];
+            } else {
+                for ($i = 0; $i < count($kass); $i++) {
+                    $kas[$i] = [
+                        'name'      => $kass[$i]->name,
+                        'week'      => $kass[$i]->week,
+                        'paid_at'   => $kass[$i]->created_at
+                    ];
+                }
+            }
+        }
+
+        return view('kas_eachmonth', [
+            'title' => 'Kas | ' . $this->WConfig['app_name'],
+            'config' => $this->WConfig,
+            'data' => $kas,
+            'month' => $month
         ]);
     }
 }

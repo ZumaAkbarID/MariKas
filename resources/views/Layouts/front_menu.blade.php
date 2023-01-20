@@ -13,8 +13,13 @@
         </li>
     @endif
     <li>
-        <a href="{{ route('Kas_Index') }}" class="@if (Request::segment(1) == 'kas') active @endif">
+        <a href="{{ route('Kas_EachMonth') }}" class="@if (Request::segment(1) == 'kas') active @endif">
             <i class='bx bxs-dashboard icon'></i> Kas
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('Kas_Index') }}" class="@if (Request::segment(1) == 'kalendar') active @endif">
+            <i class='bx bxs-dashboard icon'></i> Kas Kalendar
         </a>
     </li>
     <li>

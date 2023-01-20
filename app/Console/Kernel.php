@@ -17,6 +17,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('status:otp')->everyMinute();
+        $schedule->command('broadcast:weekly')->mondays();
+        $schedule->command('broadcast:weekly')->fridays();
     }
 
     /**

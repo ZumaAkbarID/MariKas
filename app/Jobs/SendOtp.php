@@ -48,9 +48,7 @@ class SendOtp implements ShouldQueue
         }
 
         foreach (Otp::where('phone_number', $this->phone_number)->where('status', 'available')->get() as $otp) {
-            if (time() - strtotime($otp->updated_at) > (15 * 60)) {
-                Otp::where('id', $otp->id)->update(['status' => 'expire']);
-            }
+            Otp::where('id', $otp->id)->update(['status' => 'expire']);
         }
 
         Otp::create([
