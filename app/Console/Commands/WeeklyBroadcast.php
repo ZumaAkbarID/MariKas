@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\KasTracking;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class WeeklyBroadcast extends Command
 {
@@ -28,14 +29,14 @@ class WeeklyBroadcast extends Command
      */
     public function handle()
     {
-        info("Cron Weekly Broadcast running at " . now());
+        Log::channel('weeklyBroadcast')->info("Cron Weekly Broadcast running properly\n");
 
         $month = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-        $nama = ['Rahmat Wahyuma Akbar', 'Ayu Fatimah', 'Qurata Ayun', 'Muhammad Yusuf Andrika', 'Aditiya Wahyu Alex S'];
-        $wa = ['6281225389903', '6285803660012', '6282340621224', '6282136067349', '6285669812501', '6281367647589'];
+        $nama = ['Rahmat Wahyuma Akbar', 'Ayu Fatimah', 'Qurata Ayun', 'Muhammad Yusuf Andrika', 'Niken Lismiati', 'Aditiya Wahyu Alex S'];
+        $wa = ['6281225389903', '6285803660012', '6282340621224', '6285669812501', '6282136067349', '6281367647589'];
 
-        // $nama = ['Rahmat Wahyuma Akbar', 'Aditiya Wahyu Alex S'];
-        // $wa = ['6281225389903', '6281367647589'];
+        //$nama = ['Rahmat Wahyuma Akbar', 'Aditiya Wahyu Alex S'];
+        //$wa = ['6281225389903', '6281367647589'];
 
 
         for ($i = 0; $i < count($nama); $i++) {

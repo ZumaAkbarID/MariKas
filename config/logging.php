@@ -51,6 +51,18 @@ return [
     */
 
     'channels' => [
+        'otpStatus' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/cron-otp-status.log'),
+            'level' => 'info',
+        ],
+
+        'weeklyBroadcast' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/weekly-broadcast.log'),
+            'level' => 'info',
+        ],
+
         'stack' => [
             'driver' => 'stack',
             'channels' => ['single'],
@@ -85,7 +97,7 @@ return [
             'handler_with' => [
                 'host' => env('PAPERTRAIL_URL'),
                 'port' => env('PAPERTRAIL_PORT'),
-                'connectionString' => 'tls://'.env('PAPERTRAIL_URL').':'.env('PAPERTRAIL_PORT'),
+                'connectionString' => 'tls://' . env('PAPERTRAIL_URL') . ':' . env('PAPERTRAIL_PORT'),
             ],
         ],
 

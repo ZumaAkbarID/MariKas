@@ -15,10 +15,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // Not work in shared hosting
+
         // $schedule->command('inspire')->hourly();
-        $schedule->command('status:otp')->everyMinute();
-        $schedule->command('broadcast:weekly')->mondays();
-        $schedule->command('broadcast:weekly')->fridays();
+        // $schedule->command('cache:clear')->daily();
+        // $schedule->command('view:clear')->daily();
+
+        // $schedule->command('status:otp')->everyMinute();
+        // $schedule->command('broadcast:weekly')->mondays();
+        // $schedule->command('broadcast:weekly')->fridays();
     }
 
     /**

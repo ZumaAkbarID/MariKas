@@ -62,6 +62,7 @@ class PayKas extends Controller
             $createPay = Payment::create($data);
             if ($createPay) {
                 SendStatus::dispatch('payment', $createPay->id, 'manual');
+                send_msg('6281367647589', "{$request->name} bayar kas via manual coy, cek gih");
                 Notification::create([
                     'type' => 'info',
                     'message' => $request->name . " membayar kas secara manual dan perlu direview",

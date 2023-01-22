@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Otp;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class OtpStatusCron extends Command
 {
@@ -28,7 +29,7 @@ class OtpStatusCron extends Command
      */
     public function handle()
     {
-        info("Cron OTP running at " . now());
+        Log::channel('otpStatus')->info("Cron OTP Status running properly\n");
 
         foreach (Otp::where('status', 'available')->get() as $otp) {
             if (time() - strtotime($otp->updated_at) > (15 * 60)) {
