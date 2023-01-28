@@ -13,6 +13,16 @@ class Activation extends Controller
 {
     public function form()
     {
+        if (str_split(Auth::user()->phone_number, 2)[0] == '08') {
+            $n = explode("08", Auth::user()->phone_number);
+            $phone_number = '628' . $n[1];
+        }
+
+        $checkOtp = Otp::where('phone_number', $phone_number)->where('status', 'available')->first();
+        if (!$checkOtp) {
+            SendOtp::dispatch(Auth::user()->id, $phone_number, 'Aktivasi Akun');
+        }
+
         return view('Auth.activation', [
             'title' => 'Verifikasi | ' . $this->WConfig['app_name'],
             'config' => $this->WConfig
@@ -45,7 +55,7 @@ class Activation extends Controller
                 return redirect()->to('/')->with('success', 'Nomor WhatsApp berhasil diverifikasi');
             } else {
                 Otp::where('id', $checkOtp->id)->update(['status' => 'expire']);
-                SendOtp::dispatch(Auth::user()->id, Auth::user()->phone_number);
+                SendOtp::dispatch(Auth::user()->id, Auth::user()->phone_number, 'Aktivasi Akun');
                 return redirect()->back()->with('error', 'Gagal aktifasi akun. Kode baru telah dikirim');
             }
         } else {
@@ -55,7 +65,7 @@ class Activation extends Controller
 
     public function send_otp()
     {
-        SendOtp::dispatch(Auth::user()->id, Auth::user()->phone_number);
+        SendOtp::dispatch(Auth::user()->id, Auth::user()->phone_number, 'Aktivasi Akun');
         return redirect()->back()->with('success', 'Kode OTP baru telah dikirim');
     }
 }

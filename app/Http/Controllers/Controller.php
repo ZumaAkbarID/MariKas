@@ -15,6 +15,7 @@ class Controller extends BaseController
     public $WConfig;
     public $tripay;
     public $fastwa;
+    public $payment;
 
     public function __construct()
     {
@@ -33,6 +34,12 @@ class Controller extends BaseController
 
         $this->fastwa = [
             'instance_key' => WConfig::where('key', 'fastwa_instance_key')->first()->value,
+        ];
+
+        $this->payment = [
+            'dana_holder_name' => WConfig::where('key', 'dana_holder_name')->first()->value,
+            'dana_number' => WConfig::where('key', 'dana_number')->first()->value,
+            'qris_url' => WConfig::where('key', 'qris_url')->first()->value,
         ];
     }
 }

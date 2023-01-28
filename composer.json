@@ -29,7 +29,8 @@
         "files": [
 
             "app/Helpers/Fastwa.php",
-            "app/Helpers/Tripay.php"
+            "app/Helpers/Tripay.php",
+            "app/Helpers/DiscordWebhook.php"
     
         ]
     },

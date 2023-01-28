@@ -170,12 +170,14 @@
                     <div class="row">
                         <div class="card bg-white rounded p-4 mb-3" id="rekening_manual">
                             <div class="card-content text-black">
-                                <h3><b>Informasi Rekening</b></h3> <br>
+                                <h3><b>Informasi Wallet</b></h3> <br>
                                 <b>E-WALLET (DANA)</b> <br>
-                                Nomor : <b>0813-6764-7589</b> <br> A.N <i>Aditiya Wahyu Alex S</i> <br>
+                                Nomor : <b>{{ $payment['dana_number'] }}</b> <br> A.N
+                                <i>{{ $payment['dana_holder_name'] }}</i> <br>
                                 <hr>
-                                <b>BANK : (BRI)</b> <br>
-                                No. Rek : <b>0123458690</b> <br> A.N <i>Aditiya Wahyu Alex S</i> <br>
+                                <b>QRIS :</b> <br>
+                                {{ $payment['qris_url'] }}
+                                <br>
                             </div>
                         </div>
                         <div class="card bg-white rounded p-4">
@@ -217,7 +219,7 @@
     <div class="loader-overlay"></div>
 
     <!-- General JS Scripts -->
-    <script src="{{ asset('storage') }}/assets/js/atrana.js"></script>
+    <script src="{{ asset('storage') }}/assets/js/marikas.js"></script>
 
     <!-- JS Libraies -->
     <script src="{{ asset('storage') }}/assets/modules/jquery/jquery.min.js"></script>

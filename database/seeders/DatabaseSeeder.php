@@ -30,6 +30,11 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         WConfig::factory()->create([
+            'key' => 'app_env',
+            'value' => 'development',
+        ]);
+
+        WConfig::factory()->create([
             'key' => 'app_name',
             'value' => 'MariKas',
         ]);
@@ -63,7 +68,31 @@ class DatabaseSeeder extends Seeder
         ]);
         WConfig::factory()->create([
             'key' => 'fastwa_instance_key',
-            'value' => 'WSm1sx-ah95jv-YpkN1A',
+            'value' => '1jawg5-fQ8sbW-ZKNcxS',
+        ]);
+        WConfig::factory()->create([
+            'key' => 'dana_number',
+            'value' => '081-225-389-903',
+        ]);
+        WConfig::factory()->create([
+            'key' => 'dana_holder_name',
+            'value' => 'Rahmat Wahyuma Akbar',
+        ]);
+        WConfig::factory()->create([
+            'key' => 'qris_url',
+            'value' => 'test',
+        ]);
+        WConfig::factory()->create([
+            'key' => 'discord_webhook_otp',
+            'value' => 'https://discordapp.com/api/webhooks/1068739988038090772/POYh1zJ3IJeZFglXBNBjmvZWLaYPOnah1sRtX9l1Zg0lJzsVwovSCIrCbdksYrEZDdaL',
+        ]);
+        WConfig::factory()->create([
+            'key' => 'discord_webhook_kas_payment',
+            'value' => 'https://discordapp.com/api/webhooks/1068746070605176914/z9rC2JzYqPnaXhA0JsdiYZKjTQmUf0Xj4_R1QGfMQ82qxHq50FJg5dBRrSRfzKyYHhMR',
+        ]);
+        WConfig::factory()->create([
+            'key' => 'discord_webhook_kas_cashout',
+            'value' => 'https://discordapp.com/api/webhooks/1068747120858898502/9Yhojkm8s-OLxNxX2_A2cN4u-Oezcw3DhbJoC2Mn2Yt-x5siV6H67w3VnHA5Cifcfmei',
         ]);
 
         User::factory()->create(

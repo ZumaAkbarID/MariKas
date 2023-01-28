@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Models\KasTracking;
 use App\Models\Payment;
 use App\Models\PaymentTripay;
+use App\Models\WConfig;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -36,6 +37,10 @@ class SendStatus implements ShouldQueue
      */
     public function handle()
     {
+        if (WConfig::where('key', 'app_env')->first()->value == 'development') {
+            return 1;
+        }
+
         if ($this->type == 'payment') {
             if ($this->payment_type == 'manual') {
                 $track = Payment::where('id', $this->id)->first();

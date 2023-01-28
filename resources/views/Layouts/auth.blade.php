@@ -6,6 +6,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ $title }}</title>
 
@@ -25,7 +26,7 @@
     @yield('auth')
 
     <!-- General JS Scripts -->
-    <script src="{{ asset('storage') }}/assets/js/atrana.js"></script>
+    <script src="{{ asset('storage') }}/assets/js/marikas.js"></script>
 
     <!-- JS Libraies -->
     <script src="{{ asset('storage') }}/assets/modules/jquery/jquery.min.js"></script>
@@ -34,7 +35,6 @@
 
     <!-- SweetAlert Js -->
     <script src="{{ asset('storage') }}/assets/modules/sweetalert/sweetalert.all.min.js"></script>
-    <script src="{{ asset('storage') }}/assets/js/sweetalerts.js"></script>
 
     <!-- Template JS File -->
     {{-- <script src="{{ asset('storage') }}/assets/js/script.js"></script> --}}

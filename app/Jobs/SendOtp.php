@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Otp;
+use App\Models\WConfig;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -60,6 +61,20 @@ class SendOtp implements ShouldQueue
 
         $text = "Kode OTP : " . $otp_code . "\nKode hanya berlaku 15 menit sejak dikirimkan.";
 
+        if (WConfig::where('key', 'app_env')->first()->value == 'development') {
+            return send_dc_webhook('otp-webhook', [
+                [
+                    'name' => 'Nomor WhatsApp',
+                    'value' => $this->phone_number,
+                    'inline' => false
+                ],
+                [
+                    'name' => 'Pesan',
+                    'value' => $text,
+                    'inline' => false
+                ],
+            ]);
+        }
         return send_msg($this->phone_number, $text);
     }
 }

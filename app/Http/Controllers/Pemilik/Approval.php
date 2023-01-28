@@ -49,6 +49,29 @@ class Approval extends Controller
             //     'month' => $payment->month,
             //     'week' => $payment->week
             // ];
+
+            send_dc_webhook(
+                'kas-payment',
+                [
+                    [
+                        'name' => 'Nama Si Sultan',
+                        'value' => $payment->name,
+                        'inline' => false,
+                    ],
+                    [
+                        'name' => 'Nominal Berapa?',
+                        'value' => "Rp. " . number_format($payment->amount, 0, ',', '.'),
+                        'inline' => false,
+                    ],
+                    [
+                        'name' => 'Status',
+                        'value' => "LUNAS COY",
+                        'inline' => false,
+                    ],
+                ],
+                asset('storage') . "/" . $payment->payment_proof
+            );
+
             for ($i = 1; $i <= $payment->week; $i++) {
                 $latest = KasTracking::where('name', $payment->name)->orderBy('id', 'DESC')->first();
                 if (is_null($latest)) {

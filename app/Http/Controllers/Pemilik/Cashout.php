@@ -40,6 +40,27 @@ class Cashout extends Controller
 
 
         if (CashoutTracking::create($data)) {
+            send_dc_webhook(
+                'kas-cashout',
+                [
+                    [
+                        'name' => 'Jumlah',
+                        'value' => "Rp. " . number_format($request->amount, 0, ',', '.'),
+                        'inline' => false,
+                    ],
+                    [
+                        'name' => 'Alasan / Tujuan',
+                        'value' => $request->purpose,
+                        'inline' => false,
+                    ],
+                    [
+                        'name' => 'Status',
+                        'value' => "Berhasil Terdata",
+                        'inline' => false,
+                    ],
+                ],
+                asset('storage') . '/' . $data['cashout_proof']
+            );
             return redirect()->back()->with('success', 'Data berhasil disimpan');
         } else {
             return redirect()->back()->withInput()->with('error', 'Data gagal disimpan');

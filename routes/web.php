@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\FastWA\Connect as APIFastWaConnect;
 use App\Http\Controllers\Auth\Activation as AuthActivation;
+use App\Http\Controllers\Auth\ForgotPassword as AuthForgotPassword;
 use App\Http\Controllers\Auth\Register as AuthRegister;
 use App\Http\Controllers\Auth\Login as AuthLogin;
 use App\Http\Controllers\Auth\Logout as AuthLogout;
@@ -26,9 +27,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// DEV MODE
+
+Route::get('/webhook', function () {
+    dd(send_dc_webhook('otp-webhook', [
+        [
+            'name' => 'Name 1',
+            'value' => 'Value Name 1',
+            'inine' => false,
+        ],
+        [
+            'name' => 'Name 2',
+            'value' => 'Value Name 2',
+            'inine' => false,
+        ]
+    ], 'https://media.licdn.com/dms/image/D4E03AQHldbRDe9nkHQ/profile-displayphoto-shrink_800_800/0/1663714598883?e=2147483647&v=beta&t=j7SAQAY5alsAhM9IKyNVFHnve2hEpdySIBgeTUNM0ac'));
+});
+
+// END DEV MODE
+
 Route::get('/', [PayKas::class, 'form'])->name('Pay_Manual');
 Route::post('/', [PayKas::class, 'process']);
-
 Route::post('/api/tripay/calc-price', [Calc::class, 'price'])->name('Tripay_Calc_Price');
 
 Route::get('kalendar', [PublicKas::class, 'index'])->name('Kas_Index');
@@ -55,6 +74,12 @@ Route::group(['middleware' => 'guest', 'prefix' => 'auth'], function () {
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'auth'], function () {
     Route::get('logout', [AuthLogout::class, 'process'])->name('Auth_logout');
+});
+
+Route::group(['prefix' => 'auth'], function () {
+    Route::get('reset-password', [AuthForgotPassword::class, 'index'])->name('Auth_forgot_index');
+    Route::post('reset-password', [AuthForgotPassword::class, 'otp'])->name('Auth_forgot_otp');
+    Route::post('reset-password/process', [AuthForgotPassword::class, 'process'])->name('Auth_forgot_process');
 });
 
 Route::group(['middleware' => ['auth', 'isWaNonActive'], 'prefix' => 'auth'], function () {
