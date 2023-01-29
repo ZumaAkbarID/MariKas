@@ -23,7 +23,7 @@ class Cashout extends Controller
             'title' => 'Pendataan Pengeluaran | ' . $this->WConfig['app_name'],
             'config' => $this->WConfig,
             'user' => $user,
-            'notification' => Notification::where('role', $user->u_roles[0]->role)->limit(5)->get(),
+            'notification' => Notification::where('role', $user->u_roles[0]->role)->orWhere('role', 'All')->limit(5)->get(),
             'data' => $data
         ]);
     }

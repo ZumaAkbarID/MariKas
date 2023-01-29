@@ -22,7 +22,10 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('phone_verified_at')->nullable();
             $table->enum('status', ['Aktif', 'Aktivasi', 'Non-Aktif'])->default('Aktivasi');
+            $table->enum('broadcast', ['Ya', 'Jangan'])->default('Ya');
+            $table->enum('notif_wa', ['Ya', 'Jangan'])->default('Ya');
             $table->text('reason')->nullable();
+            $table->text('profil_pic')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

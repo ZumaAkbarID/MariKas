@@ -14,17 +14,17 @@
     @endif
     <li>
         <a href="{{ route('Kas_EachMonth') }}" class="@if (Request::segment(1) == 'kas') active @endif">
-            <i class='bx bxs-dashboard icon'></i> Kas
+            <i class='bx bxs-show icon'></i> Kas
         </a>
     </li>
     <li>
         <a href="{{ route('Kas_Index') }}" class="@if (Request::segment(1) == 'kalendar') active @endif">
-            <i class='bx bxs-dashboard icon'></i> Kas Kalendar
+            <i class='bx bxs-calendar icon'></i> Kas Kalendar
         </a>
     </li>
     <li>
         <a href="{{ url('/') }}" class="@if (Request::segment(1) == '') active @endif">
-            <i class='bx bxs-dashboard icon'></i> Bayar Kas
+            <i class='bx bxs-wallet icon'></i> Bayar Kas
         </a>
     </li>
 </ul>

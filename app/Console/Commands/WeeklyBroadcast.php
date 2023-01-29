@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\KasTracking;
+use App\Models\User;
+use App\Models\WConfig;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -32,28 +34,177 @@ class WeeklyBroadcast extends Command
         Log::channel('weeklyBroadcast')->info("Cron Weekly Broadcast running properly\n");
 
         $month = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-        $nama = ['Rahmat Wahyuma Akbar', 'Ayu Fatimah', 'Qurata Ayun', 'Muhammad Yusuf Andrika', 'Niken Lismiati', 'Aditiya Wahyu Alex S'];
-        $wa = ['6281225389903', '6285803660012', '6282340621224', '6285669812501', '6282136067349', '6281367647589'];
 
-        //$nama = ['Rahmat Wahyuma Akbar', 'Aditiya Wahyu Alex S'];
-        //$wa = ['6281225389903', '6281367647589'];
+        for ($i = 0; $i < count(User::all()); $i++) {
+            if (User::get()[$i]->broadcast == 'Ya') {
+                $kas = KasTracking::where('name', User::get()[$i]->name)->whereBetween('created_at', [date('Y-m-d', strtotime('first day of January', time())), date('Y-m-d', strtotime('last day of December', time()))])->orderBy('id', 'DESC')->first();
 
+                $phone_number = '';
 
-        for ($i = 0; $i < count($nama); $i++) {
-            $kas = KasTracking::where('name', $nama[$i])->whereBetween('created_at', [date('Y-m-d', strtotime('first day of January', time())), date('Y-m-d', strtotime('last day of December', time()))])->orderBy('id', 'DESC')->first();
+                if (str_split(User::get()[$i]->phone_number, 2)[0] == '08') {
+                    $n = explode("08", User::get()[$i]->phone_number);
+                    $phone_number = '628' . $n[1];
+                }
 
-            if (empty($kas) || is_null($kas)) {
-                if ($nama[$i] == 'Qurata Ayun') {
-                    send_msg($wa[$i], "Halo kak {$nama[$i]}, kamu belum ada tracking pembayaran kas di https://kas.marimas.xyz nih.\nBayar yuk kakak maniez :)))");
+                if (empty($kas) || is_null($kas)) {
+                    if (User::get()[$i]->name == 'Qurata Ayun') {
+                        $txt = "Halo kak " . User::get()[$i]->name . ", kamu belum ada tracking pembayaran kas di https://kas.marimas.xyz nih.\nBayar yuk kakak maniez :)))";
+
+                        if (WConfig::where('key', 'app_env')->first()->value == 'development') {
+                            send_dc_webhook('custom', [
+                                [
+                                    'name' => 'Nama',
+                                    'value' => User::get()[$i]->name,
+                                    'inline' => false
+                                ],
+                                [
+                                    'name' => 'NO WA',
+                                    'value' => $phone_number,
+                                    'inline' => false
+                                ],
+                                [
+                                    'name' => 'Type MSG',
+                                    'value' => 'Broadcast',
+                                    'inline' => false
+                                ],
+                                [
+                                    'name' => 'Text',
+                                    'value' => $txt,
+                                    'inline' => false
+                                ],
+                                [
+                                    'name' => 'Status',
+                                    'value' => 'Send',
+                                    'inline' => false
+                                ],
+                            ], null, 'https://discordapp.com/api/webhooks/1069304620142309457/giodWchLVuneBtplbh0OycKO10QHbcTqVlB5uimT684gYU0JvfL_InHiqZegQR0fX9_W');
+                        } else {
+                            send_msg($phone_number, $txt);
+                        }
+                    } else {
+                        $txt = "Halo kak " . User::get()[$i]->name . ", kamu belum ada tracking pembayaran kas di https://kas.marimas.xyz nih.\nBayar yuk kak :)))";
+
+                        if (WConfig::where('key', 'app_env')->first()->value == 'development') {
+                            send_dc_webhook('custom', [
+                                [
+                                    'name' => 'Nama',
+                                    'value' => User::get()[$i]->name,
+                                    'inline' => false
+                                ],
+                                [
+                                    'name' => 'NO WA',
+                                    'value' => $phone_number,
+                                    'inline' => false
+                                ],
+                                [
+                                    'name' => 'Type MSG',
+                                    'value' => 'Broadcast',
+                                    'inline' => false
+                                ],
+                                [
+                                    'name' => 'Text',
+                                    'value' => $txt,
+                                    'inline' => false
+                                ],
+                                [
+                                    'name' => 'Status',
+                                    'value' => 'Send',
+                                    'inline' => false
+                                ],
+                            ], null, 'https://discordapp.com/api/webhooks/1069304620142309457/giodWchLVuneBtplbh0OycKO10QHbcTqVlB5uimT684gYU0JvfL_InHiqZegQR0fX9_W');
+                        } else {
+                            send_msg($phone_number, $txt);
+                        }
+                    }
                 } else {
-                    send_msg($wa[$i], "Halo kak {$nama[$i]}, kamu belum ada tracking pembayaran kas di https://kas.marimas.xyz nih.\nBayar yuk kak :)))");
+                    if (User::get()[$i]->name == 'Qurata Ayun') {
+                        $txt = "Halo kak " . User::get()[$i]->name . ", kamu terakhir bayar kas adalah bulan {$month[$kas->month - 1]} minggu ke-{$kas->week}.\nTeruskan rajin membayar kas ya kakak maniez :)))";
+
+                        if (WConfig::where('key', 'app_env')->first()->value == 'development') {
+                            send_dc_webhook('custom', [
+                                [
+                                    'name' => 'Nama',
+                                    'value' => User::get()[$i]->name,
+                                    'inline' => false
+                                ],
+                                [
+                                    'name' => 'NO WA',
+                                    'value' => $phone_number,
+                                    'inline' => false
+                                ],
+                                [
+                                    'name' => 'Type MSG',
+                                    'value' => 'Broadcast',
+                                    'inline' => false
+                                ],
+                                [
+                                    'name' => 'Text',
+                                    'value' => $txt,
+                                    'inline' => false
+                                ],
+                                [
+                                    'name' => 'Status',
+                                    'value' => 'Send',
+                                    'inline' => false
+                                ],
+                            ], null, 'https://discordapp.com/api/webhooks/1069304620142309457/giodWchLVuneBtplbh0OycKO10QHbcTqVlB5uimT684gYU0JvfL_InHiqZegQR0fX9_W');
+                        } else {
+                            send_msg($phone_number, $txt);
+                        }
+                    } else {
+                        $txt = "Halo kak " . User::get()[$i]->name . ", kamu terakhir bayar kas adalah bulan {$month[$kas->month - 1]} minggu ke-{$kas->week}.\nTeruskan rajin membayar kas ya kak :))";
+
+                        if (WConfig::where('key', 'app_env')->first()->value == 'development') {
+                            send_dc_webhook('custom', [
+                                [
+                                    'name' => 'Nama',
+                                    'value' => User::get()[$i]->name,
+                                    'inline' => false
+                                ],
+                                [
+                                    'name' => 'NO WA',
+                                    'value' => $phone_number,
+                                    'inline' => false
+                                ],
+                                [
+                                    'name' => 'Type MSG',
+                                    'value' => 'Broadcast',
+                                    'inline' => false
+                                ],
+                                [
+                                    'name' => 'Text',
+                                    'value' => $txt,
+                                    'inline' => false
+                                ],
+                                [
+                                    'name' => 'Status',
+                                    'value' => 'Send',
+                                    'inline' => false
+                                ],
+                            ], null, 'https://discordapp.com/api/webhooks/1069304620142309457/giodWchLVuneBtplbh0OycKO10QHbcTqVlB5uimT684gYU0JvfL_InHiqZegQR0fX9_W');
+                        } else {
+                            send_msg($phone_number, $txt);
+                        }
+                    }
                 }
             } else {
-                if ($nama[$i] == 'Qurata Ayun') {
-                    send_msg($wa[$i], "Halo kak {$nama[$i]}, kamu terakhir bayar kas adalah bulan {$month[$kas->month - 1]} minggu ke-{$kas->week}.\nTeruskan rajin membayar kas ya kakak maniez :)))");
-                } else {
-                    send_msg($wa[$i], "Halo kak {$nama[$i]}, kamu terakhir bayar kas adalah bulan {$month[$kas->month - 1]} minggu ke-{$kas->week}.\nTeruskan rajin membayar kas ya kak :))");
-                }
+                send_dc_webhook('custom', [
+                    [
+                        'name' => 'Nama',
+                        'value' => User::get()[$i]->name,
+                        'inline' => false
+                    ],
+                    [
+                        'name' => 'Type MSG',
+                        'value' => 'Broadcast',
+                        'inline' => false
+                    ],
+                    [
+                        'name' => 'Status',
+                        'value' => 'Skip, Broadcast == Tidak',
+                        'inline' => false
+                    ],
+                ], null, 'https://discordapp.com/api/webhooks/1069304620142309457/giodWchLVuneBtplbh0OycKO10QHbcTqVlB5uimT684gYU0JvfL_InHiqZegQR0fX9_W');
             }
         }
 

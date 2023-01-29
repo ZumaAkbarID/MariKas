@@ -98,11 +98,12 @@ class DatabaseSeeder extends Seeder
         User::factory()->create(
             [
                 'name' => 'Rahmat Wahyuma Akbar',
-                'username' => 'zuma',
+                'username' => 'zuma.akbar',
                 // 'email' => 'rahmatwahyumaakbar@gmail.com',
                 'phone_number' => '081225389903',
                 'status' => 'Aktif',
-                'password' => Hash::make('password')
+                'profil_pic' => 'profile-pic/rahmat-wahyuma-akbar.jpg',
+                'password' => Hash::make('marimas123')
             ]
         );
 
@@ -120,14 +121,16 @@ class DatabaseSeeder extends Seeder
             'user_id' => 1,
             'role' => 'Developer'
         ]);
+
         User::factory()->create(
             [
                 'name' => 'Aditiya Wahyu Alex S',
-                'username' => 'alex20',
+                'username' => '_lexxyzz20',
                 // 'email' => 'rahmatwahyumaakbar@gmail.com',
                 'phone_number' => '081367647589',
                 'status' => 'Aktif',
-                'password' => Hash::make('password')
+                'profil_pic' => 'profile-pic/aditiya-wahyu-alex-s.jpg',
+                'password' => Hash::make('marimas123')
             ]
         );
 
@@ -146,14 +149,16 @@ class DatabaseSeeder extends Seeder
             'role' => 'Pemilik',
             'room_id' => 1
         ]);
+
         User::factory()->create(
             [
-                'name' => 'Anggota',
-                'username' => 'anggota',
+                'name' => 'Ayu Fatimah',
+                'username' => '_ayufatim',
                 // 'email' => 'rahmatwahyumaakbar@gmail.com',
-                'phone_number' => '081225389902',
+                'phone_number' => '085803660012',
                 'status' => 'Aktif',
-                'password' => Hash::make('password')
+                'profil_pic' => 'profile-pic/ayu-fatimah.jpg',
+                'password' => Hash::make('marimas123')
             ]
         );
 
@@ -172,14 +177,16 @@ class DatabaseSeeder extends Seeder
             'role' => 'Anggota',
             'room_id' => 1
         ]);
+
         User::factory()->create(
             [
-                'name' => 'Pengunjung',
-                'username' => 'pengunjung',
+                'name' => 'Qurata Ayun',
+                'username' => 'qurataayunn_',
                 // 'email' => 'rahmatwahyumaakbar@gmail.com',
-                'phone_number' => '081225389904',
+                'phone_number' => '082340621224',
                 'status' => 'Aktif',
-                'password' => Hash::make('password')
+                'profil_pic' => 'profile-pic/qurata-ayun.jpg',
+                'password' => Hash::make('marimas123')
             ]
         );
 
@@ -195,7 +202,64 @@ class DatabaseSeeder extends Seeder
 
         URole::factory()->create([
             'user_id' => 4,
-            'role' => 'Pengunjung'
+            'role' => 'Anggota',
+            'room_id' => 1
+        ]);
+
+        User::factory()->create(
+            [
+                'name' => 'Niken Lismiati',
+                'username' => 'nikenlish',
+                // 'email' => 'rahmatwahyumaakbar@gmail.com',
+                'phone_number' => '082136067349',
+                'status' => 'Aktif',
+                'profil_pic' => 'profile-pic/niken-lismiati.jpg',
+                'password' => Hash::make('marimas123')
+            ]
+        );
+
+        UDetail::factory()->create(
+            [
+                'user_id' => 5,
+                'kyc_document' => 'kyc_doc/default.png',
+                'kyc_selfie' => 'kyc_self/default.png',
+                'kyc' => 'Lolos',
+                'address' => 'Jl. Seroja IV'
+            ]
+        );
+
+        URole::factory()->create([
+            'user_id' => 5,
+            'role' => 'Anggota',
+            'room_id' => 1
+        ]);
+
+        User::factory()->create(
+            [
+                'name' => 'Muhammad Yusuf Andrika',
+                'username' => 'yusufandrika_',
+                // 'email' => 'rahmatwahyumaakbar@gmail.com',
+                'phone_number' => '085669812501',
+                'status' => 'Aktif',
+                'profil_pic' => 'profile-pic/muhammad-yusuf-andrika.jpg',
+                'password' => Hash::make('marimas123')
+            ]
+        );
+
+        UDetail::factory()->create(
+            [
+                'user_id' => 6,
+                'kyc_document' => 'kyc_doc/default.png',
+                'kyc_selfie' => 'kyc_self/default.png',
+                'kyc' => 'Lolos',
+                'address' => 'Jl. Seroja IV'
+            ]
+        );
+
+        URole::factory()->create([
+            'user_id' => 6,
+            'role' => 'Anggota',
+            'room_id' => 1
         ]);
 
         // Room::factory()->create([

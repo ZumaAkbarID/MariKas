@@ -3,11 +3,12 @@
 use App\Models\WConfig;
 
 /**
- * Type tersedia : otp-webhook, kas-payment, kas-cashout.
+ * Type tersedia : otp-webhook, kas-payment, kas-cashout, custom.
+ * Custom required $customUrl
  *
  * @var array $content = [["name" => "title", "value" => "content", "inline" => false], ...];
  */
-function send_dc_webhook($type, $content, $img = null)
+function send_dc_webhook($type, $content, $img = null, $customUrl = null)
 {
   if ($type == 'otp-webhook') {
     $webhookurl = WConfig::where('key', 'discord_webhook_otp')->first()->value;
@@ -18,6 +19,9 @@ function send_dc_webhook($type, $content, $img = null)
   } else if ($type == 'kas-cashout') {
     $webhookurl = WConfig::where('key', 'discord_webhook_kas_cashout')->first()->value;
     $title = "Penarikan Kas";
+  } else if ($type == 'custom') {
+    $webhookurl = $customUrl;
+    $title = "Custom";
   }
 
   //=======================================================================================================

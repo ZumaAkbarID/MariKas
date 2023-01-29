@@ -77,7 +77,7 @@
                                 @csrf
                                 <div class="form-group my-3">
                                     <label for="method">Metode Pembayaran</label>
-                                    <select name="method" id="method" class="form-control">
+                                    <select name="method" id="method" class="form-control" required>
                                         <option value="Manual" @if (old('method') == 'Manual') selected @endif>Manual
                                         </option>
                                         <option value="Otomatis" @if (old('method') == 'Otomatis') selected @endif>
@@ -91,9 +91,15 @@
 
                                 <div class="form-group my-3">
                                     <label for="name">Nama</label>
-                                    <input type="text" name="name" id="name"
-                                        class="form-control @if ($errors->has('name')) is-invalid @endif"
-                                        value="{{ old('name') }}" placeholder="cnth: Ay ang" required>
+                                    <select name="name" id="name" required
+                                        class="form-control @if ($errors->has('name')) is-invalid @endif">
+                                        <option value="">-- Pilih --</option>
+                                        @foreach ($user as $u)
+                                            <option value="{{ $u->name }}" data-phone="{{ $u->phone_number }}"
+                                                @if (old('name') == $u->name) selected @endif>{{ $u->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <div class="form-group my-3" id="email">
@@ -107,7 +113,8 @@
                                     <label for="phone_number">Nomor WhatsApp</label>
                                     <input type="text" name="phone_number" id="phone_number"
                                         class="form-control @if ($errors->has('phone_number')) is-invalid @endif"
-                                        value="{{ old('phone_number') }}" placeholder="08xxx atau 628xxx" required>
+                                        value="{{ old('phone_number') }}"
+                                        placeholder="Otomatis terisi jika memilih nama" required readonly>
                                 </div>
 
                                 <div class="form-group my-3" id="via">
@@ -176,7 +183,8 @@
                                 <i>{{ $payment['dana_holder_name'] }}</i> <br>
                                 <hr>
                                 <b>QRIS :</b> <br>
-                                {{ $payment['qris_url'] }}
+                                <img src="{{ asset('storage') }}/{{ $payment['qris_url'] }}" class="img-fluid"
+                                    alt="QRIS MARIKAS">
                                 <br>
                             </div>
                         </div>
@@ -251,6 +259,7 @@
                 html: "{!! session('success') !!}"
             });
         @endif
+
         function calc_price(code, amount) {
             $.ajax({
                 type: "POST",
@@ -274,6 +283,11 @@
 
         $('#amount').on('change', function() {
             calc_price($('#via_value').val(), $('#amount').val());
+        });
+
+        $('#name').on('change', function() {
+            $('#name option:nth-child(1)').attr('disabled', 'disabled');
+            $('#phone_number').val($(this).find(':selected').data('phone'));
         });
 
         $('#via_value').on('change', function() {

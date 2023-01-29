@@ -12,8 +12,12 @@ use App\Http\Controllers\Pemilik\Tripay as PemilikTripay;
 use App\Http\Controllers\Pemilik\Approval as PemilikApproval;
 use App\Http\Controllers\Pemilik\Cashout as PemilikCashout;
 use App\Http\Controllers\Pemilik\Manual as PemilikManual;
+use App\Http\Controllers\Profile\Settings as ProfileSettings;
+use App\Http\Controllers\Profile\User as ProfileUser;
 use App\Http\Controllers\PublicKas;
 use App\Http\Controllers\Tripay\Calc;
+use App\Http\Controllers\Website\Config as WebConfig;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,25 +33,18 @@ use Illuminate\Support\Facades\Route;
 
 // DEV MODE
 
-Route::get('/webhook', function () {
-    dd(send_dc_webhook('otp-webhook', [
-        [
-            'name' => 'Name 1',
-            'value' => 'Value Name 1',
-            'inine' => false,
-        ],
-        [
-            'name' => 'Name 2',
-            'value' => 'Value Name 2',
-            'inine' => false,
-        ]
-    ], 'https://media.licdn.com/dms/image/D4E03AQHldbRDe9nkHQ/profile-displayphoto-shrink_800_800/0/1663714598883?e=2147483647&v=beta&t=j7SAQAY5alsAhM9IKyNVFHnve2hEpdySIBgeTUNM0ac'));
+Route::get('/zuma-1', function () {
+    return Artisan::call('storage:link');
+});
+Route::get('/zuma-2', function () {
+    return Artisan::call('migrate:fresh --seed');
 });
 
 // END DEV MODE
 
 Route::get('/', [PayKas::class, 'form'])->name('Pay_Manual');
 Route::post('/', [PayKas::class, 'process']);
+Route::post('/get-phone', [PayKas::class, 'get_phone'])->name('Get_Phone');
 Route::post('/api/tripay/calc-price', [Calc::class, 'price'])->name('Tripay_Calc_Price');
 
 Route::get('kalendar', [PublicKas::class, 'index'])->name('Kas_Index');
@@ -57,7 +54,7 @@ Route::group(['middleware' => ['auth', 'isWaActive']], function () {
     Route::get('dashboard', [Dashboard::class, 'index'])->name('Dashboard');
 
     Route::get('/notif', function () {
-        return 'All';
+        return 'Coming Soon';
     })->name('Notif_All');
     Route::get('/notif/read/{$id}', function ($id) {
         return $id;
@@ -88,6 +85,14 @@ Route::group(['middleware' => ['auth', 'isWaNonActive'], 'prefix' => 'auth'], fu
     Route::post('activation', [AuthActivation::class, 'process']);
 });
 
+Route::group(['middleware' => ['auth', 'isWaActive'], 'prefix' => 'profile'], function () {
+    Route::get('', [ProfileUser::class, 'index'])->name('Profile_index');
+    Route::post('', [ProfileUser::class, 'process']);
+
+    Route::get('setting', [ProfileSettings::class, 'index'])->name('Profile_settings');
+    Route::post('setting', [ProfileSettings::class, 'process']);
+});
+
 Route::group(['middleware' => ['isPemilik', 'auth', 'isWaActive'], 'prefix' => 'pengurus'], function () {
     Route::get('manual', [PemilikManual::class, 'form'])->name('Pemilik_Manual');
     Route::post('manual', [PemilikManual::class, 'process']);
@@ -105,5 +110,10 @@ Route::group(['middleware' => ['isPemilik', 'auth', 'isWaActive'], 'prefix' => '
 Route::group(['middleware' => 'isDev', 'prefix' => 'dev'], function () {
     Route::group(['prefix' => 'api'], function () {
         Route::get('fastwa/connect', [APIFastWaConnect::class, 'index'])->name('API_FastWa_Connect');
+    });
+
+    Route::group(['prefix' => 'config'], function () {
+        Route::get('website', [WebConfig::class, 'index'])->name('WebConfig_index');
+        Route::post('website', [WebConfig::class, 'update']);
     });
 });

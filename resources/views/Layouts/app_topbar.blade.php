@@ -57,13 +57,15 @@ text-white">
             <li class="nav-item dropdown">
                 <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                    <img src="{{ asset('storage') }}/assets/images/avatar/avatar-1.png" alt="">
+                    <img src="{{ asset('storage') }}/{{ is_null(Auth::user()->profil_pic) ? 'profile-pic/default.png' : Auth::user()->profil_pic }}"
+                        alt="{{ Auth::user()->name }} - MariKas Profile">
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#"><i class="fa fa-user size-icon-1"></i>
-                        <span>Profil (coming soon)</span></a>
-                    <a class="dropdown-item" href="#"><i class="fa fa-cog size-icon-1"></i>
-                        <span>Pengaturan (coming soon)</span></a>
+                    <a class="dropdown-item" href="{{ route('Profile_index') }}"><i class="fa fa-user size-icon-1"></i>
+                        <span>Profil</span></a>
+                    <a class="dropdown-item" href="{{ route('Profile_settings') }}"><i
+                            class="fa fa-cog size-icon-1"></i>
+                        <span>Pengaturan Akun</span></a>
                     <hr class="dropdown-divider">
                     <a class="dropdown-item text-danger" href="{{ route('Auth_logout') }}"><i
                             class="fa fa-sign-out-alt  size-icon-1"></i> <span>Keluar</span></a>

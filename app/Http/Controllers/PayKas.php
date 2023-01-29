@@ -7,6 +7,7 @@ use App\Models\KasTracking;
 use App\Models\Notification;
 use App\Models\Payment;
 use App\Models\PaymentTripay;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -19,16 +20,21 @@ class PayKas extends Controller
             'title' => 'Pembayaran Kas | ' . $this->WConfig['app_name'],
             'config' => $this->WConfig,
             'tripay_channel' => get_channel(),
-            'payment' => $this->payment
+            'payment' => $this->payment,
+            'user' => User::all()
         ]);
+    }
+
+    public function get_phone(Request $request)
+    {
+        # code...
     }
 
     public function process(Request $request)
     {
-        $nama = ['Aditiya Wahyu Alex S', 'Niken Lismiati', 'Muhammad Yusuf Andrika', 'Qurata Ayun', 'Rahmat Wahyuma Akbar', 'Ayu Fatimah'];
         $namaFound = 0;
-        for ($i = 0; $i < count($nama); $i++) {
-            if ($nama[$i] == $request->name) {
+        for ($i = 0; $i < count(User::all()); $i++) {
+            if (User::get()[$i]->name == $request->name) {
                 $namaFound = 1;
             }
         }
@@ -49,7 +55,7 @@ class PayKas extends Controller
 
         if ($request->method == 'Manual') {
             $data = [
-                'trx_code' => 'MARIKAS-' . time(),
+                'trx_code' => 'MARIKAS-' . uniqid(),
                 'name' => $request->name,
                 'phone_number' => $phone_number,
                 'month' => date('m'),
@@ -69,11 +75,21 @@ class PayKas extends Controller
                     'message' => $request->name . " membayar kas secara manual dan perlu direview",
                     'role' => 'Pemilik',
                 ]);
+                Notification::create([
+                    'type' => 'info',
+                    'message' => $request->name . " membayar kas secara manual dan perlu direview",
+                    'role' => 'Developer',
+                ]);
             } else {
                 Notification::create([
                     'type' => 'warning',
                     'message' => "Terjadi kesalahan ketika " . $request->name . " membayar kas manual",
                     'role' => 'Pemilik',
+                ]);
+                Notification::create([
+                    'type' => 'warning',
+                    'message' => "Terjadi kesalahan ketika " . $request->name . " membayar kas manual",
+                    'role' => 'Developer',
                 ]);
                 return abort(500);
             }
@@ -81,11 +97,11 @@ class PayKas extends Controller
             return redirect()->back()->with('success', 'Pembayaran akan direview segera. Kas ' . $request->amount . 'x atas nama ' . $request->name);
         } else if ($request->method == 'Otomatis') {
 
-            return redirect()->back()->with('error', 'Pembayaran otomatis sedang dalam tahap pengembangan. MALES EY');
+            return redirect()->back()->with('error', 'Pembayaran otomatis sedang dalam tahap pengembangan. MALES EY BLM DISEMANGATIN AYANG XIXI');
 
             $privateKey   = 'UQLSQ-i4jxn-mDaXc-1Jgi1-nX5Rf';
             $merchantCode = 'T9501';
-            $merchantRef  = 'MARIKAS-' . time();
+            $merchantRef  = 'MARIKAS-' . uniqid();
 
             $signature = hash_hmac('sha256', $merchantCode . $merchantRef . $amount, $privateKey);
 

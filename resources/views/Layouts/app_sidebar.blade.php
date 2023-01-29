@@ -15,10 +15,16 @@
                         <i class='bx bxs-dashboard icon'></i> Dashboard
                     </a>
                     <a href="{{ route('Kas_Index') }}" class="@if (Request::segment(1) == 'kalendar') active @endif">
-                        <i class='bx bxs-dashboard icon'></i> Lihat Kalendar
+                        <i class='bx bxs-calendar icon'></i> Lihat Kalendar
                     </a>
                     <a href="{{ route('Kas_EachMonth') }}" class="@if (Request::segment(1) == 'kas') active @endif">
-                        <i class='bx bxs-dashboard icon'></i> Lihat Kas
+                        <i class='bx bxs-show icon'></i> Lihat Kas
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ url('/') }}" class="@if (Request::segment(1) == '') active @endif">
+                        <i class='bx bxs-wallet icon'></i> Bayar Kas
                     </a>
                 </li>
 
@@ -33,7 +39,7 @@
                             <i class='bx bx-chevron-right icon-right'></i>
                         </a>
                         <ul class="side-dropdown">
-                            <li><a href="#">Web Config (coming soon)</a></li>
+                            <li><a href="{{ route('WebConfig_index') }}">Web Config</a></li>
                             <li><a href="{{ route('API_FastWa_Connect') }}">Connect WhatsApp Api</a></li>
                         </ul>
                     </li>

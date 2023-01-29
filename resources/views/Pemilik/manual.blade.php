@@ -11,16 +11,23 @@
                                 @csrf
                                 <div class="form-group my-3">
                                     <label for="name">Nama</label>
-                                    <input type="text" name="name" id="name"
-                                        class="form-control @if ($errors->has('name')) is-invalid @endif" required
-                                        value="{{ old('name') }}" placeholder="cnth: Ay ang">
+                                    <select name="name" id="name" required
+                                        class="form-control @if ($errors->has('name')) is-invalid @endif">
+                                        <option value="">-- Pilih --</option>
+                                        @foreach ($users as $u)
+                                            <option value="{{ $u->name }}" data-phone="{{ $u->phone_number }}"
+                                                @if (old('name') == $u->name) selected @endif>{{ $u->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <div class="form-group my-3">
                                     <label for="phone_number">Nomor WhatsApp</label>
                                     <input type="text" name="phone_number" id="phone_number"
                                         class="form-control @if ($errors->has('phone_number')) is-invalid @endif" required
-                                        value="{{ old('phone_number') }}" placeholder="08xxx atau 628xxx">
+                                        value="{{ old('phone_number') }}"
+                                        placeholder="Akan terisi otomatis jika nama berubah" readonly>
                                 </div>
 
                                 {{-- <div class="form-group my-3">
@@ -86,6 +93,11 @@
                     reader.readAsDataURL(file);
                 }
             });
+        });
+
+        $('#name').on('change', function() {
+            $('#name option:nth-child(1)').attr('disabled', 'disabled');
+            $('#phone_number').val($(this).find(':selected').data('phone'));
         });
     </script>
 @endsection
