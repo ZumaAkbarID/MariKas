@@ -19,7 +19,7 @@
                                     <label for="broadcast">Terima Broadcast WhatsApp Mingguan?</label>
                                     <select name="broadcast" id="broadcast" class="form-control" required>
                                         <option value="Ya" @if (Auth::user()->broadcast == 'Ya') selected @endif>Ya</option>
-                                        <option value="Tidak" @if (Auth::user()->broadcast == 'Tidak') selected @endif>Tidak
+                                        <option value="Jangan" @if (Auth::user()->broadcast == 'Jangan') selected @endif>Jangan
                                         </option>
                                     </select>
                                 </div>
@@ -28,7 +28,7 @@
                                     <label for="notif_wa">Terima Notif WhatsApp?</label>
                                     <select name="notif_wa" id="notif_wa" class="form-control" required>
                                         <option value="Ya" @if (Auth::user()->notif_wa == 'Ya') selected @endif>Ya</option>
-                                        <option value="Tidak" @if (Auth::user()->notif_wa == 'Tidak') selected @endif>Tidak
+                                        <option value="Jangan" @if (Auth::user()->notif_wa == 'Jangan') selected @endif>Jangan
                                         </option>
                                     </select>
                                 </div>

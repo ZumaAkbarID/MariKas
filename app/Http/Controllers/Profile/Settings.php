@@ -31,7 +31,7 @@ class Settings extends Controller
                     'notif_wa' => $request->notif_wa,
                 ]);
                 return redirect()->back()->with('success', 'Berhasil memperbarui data notifikasi');
-            } catch (\Throwable $th) {
+            } catch (\Exception $e) {
                 return redirect()->back()->with('error', 'Gagal memperbarui data notifikasi');
             }
         } else if ($request->type == 'change-password') {
