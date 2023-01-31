@@ -1,3 +1,0 @@
-Run artisan queue:work
-Run artisan status:otp
-Run artisan broadcast:weekly

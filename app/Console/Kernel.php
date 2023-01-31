@@ -22,6 +22,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('view:clear')->daily();
 
         // $schedule->command('status:otp')->everyMinute();
+        // $schedule->command('status:fastwa')->everyMinute();
         // $schedule->command('broadcast:weekly')->mondays();
         // $schedule->command('broadcast:weekly')->fridays();
     }
